@@ -1,4 +1,4 @@
-# DevOps Test — NestJS / Redis / Kubernetes Stack
+# devops test
 
 This repository demonstrates a complete CI/CD and container orchestration setup for a production-grade NestJS service with Redis caching, GitHub Actions pipeline, and Kubernetes deployment with integrated observability (Prometheus + Grafana).
 
@@ -11,7 +11,7 @@ The stack is built around the following components:
 - **Application Layer:** NestJS REST API (Node.js 20-alpine)
 - **Data Layer:** Redis 7-alpine with password authentication
 - **CI/CD:** GitHub Actions pipeline for build, push and deploy
-- **Orchestration:** Kubernetes (tested on kind/minikube)
+- **Orchestration:** Kubernetes (tested on kind)
 - **Monitoring:** Prometheus (metrics scrape) + Grafana dashboards
 - **Security:** Non-root containers, readonly FS, Secrets, NetworkPolicy
 
@@ -50,7 +50,7 @@ Required repository secrets:
 |------|--------------|
 | `DOCKER_USERNAME` | Docker Hub username |
 | `DOCKER_PASSWORD` | Docker Hub access token |
-| `KUBE_CONFIG` | Base64-encoded kubeconfig for target cluster |
+| `KUBE_CONFIG` | Base64-encoded kubeconfig for target cluster (devops-test pass)|
 
 ---
 
@@ -166,7 +166,7 @@ kubectl port-forward svc/grafana 30300:3000
 
 ## 8. Verification
 
-Run the provided validation script:
+Run the provided validation script (file commented):
 
 ```bash
 chmod +x verify.sh
@@ -199,14 +199,7 @@ curl http://localhost:3000/redis
 
 - Docker ≥ 24.x  
 - kubectl ≥ 1.29  
-- kind or minikube cluster  
+- kind cluster  
 - Node.js ≥ 20 (for local runs)  
 - GitHub Actions runner (for CI/CD pipeline)
 
----
-
-## 11. Author
-
-**Mykhailo Kovryha**  
-DevOps / Cloud Engineer  
-GitHub: [@Quixx21](https://github.com/Q
