@@ -14,6 +14,19 @@
 
 ---
 
+## Deploy automation
+If you use this in CI/CD, ensure secrets like DOCKER_USERNAME, DOCKER_PASSWORD, and KUBE_CONFIG are set
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+## Reset 
+```bash
+chmod +x reset.sh
+./reset.sh
+```
+
+## If you want to run manually then:
 ## 1. Docker
 
 ### Build & Run
@@ -141,6 +154,9 @@ kubectl get networkpolicy
 
 ## 7. Observability
 
+```bash
+kubectl apply -f kubernetes/grafana 
+```
 ### Prometheus
 Prometheus scrapes `/metrics` endpoint from the NestJS service.
 
