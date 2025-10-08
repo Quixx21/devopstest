@@ -4,7 +4,6 @@
 
 ## Overview
 
-The stack is built around the following components:
 
 - **Application Layer:** NestJS REST API (Node.js 20-alpine)
 - **Data Layer:** Redis 7-alpine with password authentication
@@ -40,7 +39,6 @@ Stages:
 1. **Build:** create Docker image from source  
 2. **Push:** publish image to Docker Hub  
 3. **Deploy:** rollout update to Kubernetes cluster  
-4. **Verify:** health & integration checks via `verify.sh`
 
 Required repository secrets:
 
@@ -48,7 +46,7 @@ Required repository secrets:
 |------|--------------|
 | `DOCKER_USERNAME` | Docker Hub username |
 | `DOCKER_PASSWORD` | Docker Hub access token |
-| `KUBE_CONFIG` | Base64-encoded kubeconfig for target cluster (devops-test pass)|
+| `KUBE_CONFIG` | Base64-encoded kubeconfig for target cluster |
 
 ---
 
