@@ -52,6 +52,14 @@ Required repository secrets:
 
 ## 3. Kubernetes Deployment
 
+# Install Ingress Controller
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+kubectl get pods -n ingress-nginx 
+```
+Wait until nginx-controller will be ready. kind doesnot have by default ingress controller on!!
+
 All manifests are under `/kubernetes`.
 
 ```bash

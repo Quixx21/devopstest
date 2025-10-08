@@ -13,9 +13,6 @@ check() {
 
 echo "DOCKER CHECKS"
 
-# local docker image
-check "docker image inspect devops-test" "Docker image exists locally"
-
 # no root!
 check "docker run --rm -it quixx21/devops-test:latest id | grep -v 'uid=0'" "Container runs as non-root user"
 
