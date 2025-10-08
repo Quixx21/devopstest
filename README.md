@@ -1,7 +1,5 @@
 # devops test
 
-This repository demonstrates a complete CI/CD and container orchestration setup for a production-grade NestJS service with Redis caching, GitHub Actions pipeline, and Kubernetes deployment with integrated observability (Prometheus + Grafana).
-
 ---
 
 ## Overview
