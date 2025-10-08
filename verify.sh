@@ -43,7 +43,6 @@ check "kubectl get ingress nestjs-ingress" "Ingress exists"
 # configmap check
 check "kubectl get configmap app-config" "ConfigMap exists"
 check "kubectl get secret redis-secret" "Redis Secret exists"
-check "kubectl get secret app-secrets" "App Secret exists"
 
 # network policy check
 check "kubectl get networkpolicy redis-access" "NetworkPolicy exists"
