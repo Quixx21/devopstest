@@ -1,3 +1,4 @@
+# Ingress resourse
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -5,16 +6,16 @@ metadata:
   labels:
     app: nestjs-app
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: / #route all traffic to root
 spec:
   rules:
-    - host: localhost
+    - host: localhost                             # local kind use localhost
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nestjs-service
+                name: nestjs-service              # Point to nestjs
                 port:
                   number: 3000

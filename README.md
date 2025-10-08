@@ -1,144 +1,212 @@
-# DevOps Тестове Завдання: CI/CD для NestJS + Redis + Kubernetes
+# DevOps Test — NestJS / Redis / Kubernetes Stack
 
-**Час виконання:** 1 доба
-
-## Опис Завдання
-
-Вам надано простий додаток NestJS з одним ендпоінтом `/redis`, який перевіряє підключення до Redis і повертає true/false. Потрібно налаштувати повний CI/CD pipeline та розгорнути додаток у Kubernetes.
-
-## Структура Додатку
-
-```
-nestjs-app/
-├── src/
-│   ├── redis/
-│   │   └── redis.service.ts
-│   ├── app.controller.ts
-│   ├── app.module.ts
-│   ├── app.service.ts
-│   └── main.ts
-├── package.json
-├── tsconfig.json
-```
-
-### Ендпоінт Додатку
-
-- **GET /redis** - повертає `{"status": true/false}` залежно від стану підключення до Redis
-
-## Вимоги
-
-### 1. Dockerfile
-
-- [ ] Створити оптимізований багатоетапний Dockerfile
-- [ ] Використовувати офіційні базові образи
-- [ ] Мінімізувати розмір кінцевого образу
-- [ ] Налаштувати користувача без root прав
-- [ ] Правильно обробити залежності Node.js
-- [ ] Використовувати .dockerignore
-
-### 2. CI/CD Pipeline
-
-Налаштувати pipeline для GitHub Actions або GitLab CI з етапами:
-
-- [ ] Збірка Docker образу
-- [ ] Push образу в registry
-- [ ] Деплой у Kubernetes
-- [ ] Використання змінних середовища та secrets
-
-### 3. Kubernetes Маніфести
-
-- [ ] Deployment, Service, Ingress для NestJS додатку
-- [ ] Deployment, Service для Redis
-- [ ] ConfigMap, Secrets для конфігурації
-- [ ] Правильні labels та selectors
-- [ ] Resource limits та requests
-
-### 4. Інтеграція з Redis
-
-- [ ] Redis розгорнуто у кластері
-- [ ] Додаток успішно підключається до Redis
-- [ ] Ендпоінт `/redis` працює коректно
-
-### 5. Secrets та Безпека
-
-- [ ] Використання Kubernetes Secrets для чутливих даних
-- [ ] Пароль Redis зберігається в Secret
-- [ ] NetworkPolicy для обмеження трафіку (бонус)
-- [ ] SecurityContext у pod'ах
-- [ ] Не використовуються root права в контейнерах
-
-### 6. Додаткові Вимоги
-
-- [ ] Детальний README з інструкціями по налаштуванню
-- [ ] Health checks та Autoscaler
-- [ ] Коментарі в коді та маніфестах
-- [ ] Моніторинг з Prometheus/Grafana
-
-## Критерії Оцінювання
-
-| Компонент         | Відмінно                                                  | Добре                           | Задовільно                 | Незадовільно            |
-| ----------------- | --------------------------------------------------------- | ------------------------------- | -------------------------- | ----------------------- |
-| **Dockerfile**    | Багатоетапний, оптимізований, найкращі безпекові практики | Робочий, частково оптимізований | Базовий робочий Dockerfile | Не працює або відсутній |
-| **CI/CD**         | Повний pipeline з тестами, скануванням, автодеплоєм       | Pipeline з основними етапами    | Базовий pipeline збірки    | Не працює               |
-| **K8s Маніфести** | Повні, оптимізовані, з best practices                     | Коректні основні компоненти     | Базові робочі маніфести    | Не працює               |
-| **Документація**  | Детальна, з прикладами, діаграмами                        | Гарна з основними інструкціями  | Базова документація        | Відсутня або неповна    |
-
-## Що Потрібно Надати
-
-1. **Репозиторій з кодом** (GitHub)
-2. **README.md** з детальними інструкціями
-3. **Архітектурна діаграма** (може бути проста схема)
-4. **Демонстрація роботи** - скріншоти або відео
-5. **Пояснення рішень** - чому обрали саме такий підхід
-
-## Додаткові Інструкції
-
-### Тестове Середовище
-
-- Використовуйте minikube, kind або Docker Desktop для локального тестування
-- Якщо є доступ до хмарного кластеру - можете використовувати його
-- Всі рішення повинні бути відтворюваними
-
-### Registry
-
-- Можете використовувати Docker Hub, GitHub Container Registry або будь-який інший публічний registry
-- Не забудьте про теги версій
-
-### Моніторинг Розгортання
-
-Ці команди повинні працювати для перевірки:
-
-```bash
-kubectl get pods
-kubectl get services
-curl http://domain.tld/redis
-```
-
-## Розподіл Часу
-
-- **30 хв** - Аналіз додатку, планування архітектури
-- **45 хв** - Dockerfile та базові K8s маніфести
-- **30 хв** - CI/CD pipeline
-- **15 хв** - Тестування та відлагодження
-- **20 хв** - Документація та фіналізація
-
-## Критерії Успішного Виконання
-
-### Мінімум для Проходження
-
-- Додаток розгортається в Kubernetes
-- Ендпоінт `/redis` повертає коректну відповідь
-- Dockerfile працює та оптимізований
-- Існує базовий CI/CD pipeline
-- Документація дозволяє відтворити результат
-
-### Для Високої Оцінки Додатково
-
-- Реалізовані security best practices
-- Додані моніторинг та автомасштабування
-- Код та інфраструктура добре документовані
-- Продумані питання продуктивності та відмовостійкості
+This repository demonstrates a complete CI/CD and container orchestration setup for a production-grade NestJS service with Redis caching, GitHub Actions pipeline, and Kubernetes deployment with integrated observability (Prometheus + Grafana).
 
 ---
 
-**Удачі!** Чекаємо ваше рішення протягом 2 годин після отримання завдання.
+## Overview
+
+The stack is built around the following components:
+
+- **Application Layer:** NestJS REST API (Node.js 20-alpine)
+- **Data Layer:** Redis 7-alpine with password authentication
+- **CI/CD:** GitHub Actions pipeline for build, push and deploy
+- **Orchestration:** Kubernetes (tested on kind/minikube)
+- **Monitoring:** Prometheus (metrics scrape) + Grafana dashboards
+- **Security:** Non-root containers, readonly FS, Secrets, NetworkPolicy
+
+---
+
+## 1. Docker
+
+### Build & Run
+
+```bash
+docker build -t quixx21/devops-test:latest .
+docker run -d -p 3000:3000 quixx21/devops-test:latest
+```
+
+**Dockerfile highlights**
+- Multi-stage build (minimal image size ~150 MB)
+- Based on official `node:20-alpine`
+- Runs as non-root user (`USER node`)
+- `.dockerignore` excludes `node_modules`, `dist`, and `tests`
+
+---
+
+## 2. CI/CD Pipeline (GitHub Actions)
+
+Pipeline: `.github/workflows/ci-cd.yml`
+
+Stages:
+1. **Build:** create Docker image from source  
+2. **Push:** publish image to Docker Hub  
+3. **Deploy:** rollout update to Kubernetes cluster  
+4. **Verify:** health & integration checks via `verify.sh`
+
+Required repository secrets:
+
+| Name | Description |
+|------|--------------|
+| `DOCKER_USERNAME` | Docker Hub username |
+| `DOCKER_PASSWORD` | Docker Hub access token |
+| `KUBE_CONFIG` | Base64-encoded kubeconfig for target cluster |
+
+---
+
+## 3. Kubernetes Deployment
+
+All manifests are under `/kubernetes`.
+
+```bash
+kubectl apply -f kubernetes/
+kubectl get pods
+kubectl get svc
+kubectl get ingress
+```
+
+### Components
+- `app-deployment.yaml` — NestJS application Deployment  
+- `redis-deployment.yaml` — Redis Deployment  
+- `app-service.yaml`, `redis-service.yaml` — internal Services  
+- `app-ingress.yaml` — Ingress routing to NestJS  
+- `configmap.yaml` — environment variables  
+- `redis-secret.yaml` — Redis password (base64-encoded)  
+- `networkpolicy.yaml` — restricts Redis traffic  
+- `hpa.yaml` — CPU-based Horizontal Pod Autoscaler  
+
+### Quick check
+```bash
+curl http://localhost/redis
+# {"status":true,"message":"Redis connection is healthy"}
+```
+
+---
+
+## 4. Application Configuration
+
+| Variable | Description | Default |
+|-----------|--------------|----------|
+| `NODE_ENV` | Node environment | production |
+| `PORT` | NestJS port | 3000 |
+| `REDIS_HOST` | Redis service hostname | redis |
+| `REDIS_PORT` | Redis port | 6379 |
+| `REDIS_PASSWORD` | From Kubernetes Secret | — |
+
+---
+
+## 5. Health & Autoscaling
+
+**Probes** defined in `app-deployment.yaml`:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /redis
+    port: 3000
+readinessProbe:
+  httpGet:
+    path: /redis
+    port: 3000
+```
+
+**HPA** configured at 70% CPU utilization:
+
+```bash
+kubectl get hpa
+```
+
+---
+
+## 6. Security Controls
+
+- Non-root execution (`runAsNonRoot: true`, UID 1001)  
+- Read-only root filesystem (`readOnlyRootFilesystem: true`)  
+- Privilege escalation disabled  
+- Redis credentials stored in Secret  
+- Redis isolated via NetworkPolicy (accessible only by NestJS pods)
+
+Validation:
+
+```bash
+kubectl exec -it $(kubectl get pod -l app=nestjs-app -o name) -- id
+kubectl get networkpolicy
+```
+
+---
+
+## 7. Observability
+
+### Prometheus
+Prometheus scrapes `/metrics` endpoint from the NestJS service.
+
+```bash
+kubectl port-forward svc/prometheus 9090:9090
+# Open http://localhost:9090
+```
+
+Prometheus job (in ConfigMap):
+```yaml
+- job_name: "nestjs-app"
+  metrics_path: /metrics
+  static_configs:
+    - targets: ["nestjs-service:3000"]
+```
+
+### Grafana
+Grafana connects to Prometheus as its data source.
+
+```bash
+kubectl port-forward svc/grafana 30300:3000
+# Open http://localhost:30300
+# Login: admin / admin
+```
+
+---
+
+## 8. Verification
+
+Run the provided validation script:
+
+```bash
+chmod +x verify.sh
+./verify.sh
+```
+
+Checks include:
+- Docker build and security compliance  
+- CI/CD workflow status  
+- Kubernetes object existence  
+- Redis connectivity  
+- Security contexts  
+- Autoscaling and probes  
+- Monitoring stack (Prometheus + Grafana)
+
+---
+
+## 9. Local Development
+
+For local testing without Kubernetes:
+
+```bash
+docker-compose up --build
+curl http://localhost:3000/redis
+```
+
+---
+
+## 10. System Requirements
+
+- Docker ≥ 24.x  
+- kubectl ≥ 1.29  
+- kind or minikube cluster  
+- Node.js ≥ 20 (for local runs)  
+- GitHub Actions runner (for CI/CD pipeline)
+
+---
+
+## 11. Author
+
+**Mykhailo Kovryha**  
+DevOps / Cloud Engineer  
+GitHub: [@Quixx21](https://github.com/Q

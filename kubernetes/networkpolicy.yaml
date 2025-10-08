@@ -1,0 +1,19 @@
+# NetworkPolicy to limit access to Redis only from NestJS pods
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: redis-access
+spec:
+  podSelector:
+    matchLabels:
+      app: redis      # apply to redis pods
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: nestjs-app   #only nestjs pods can access to redis
+      ports:
+        - protocol: TCP
+          port: 6379
+  policyTypes:
+    - Ingress

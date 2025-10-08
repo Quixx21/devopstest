@@ -1,0 +1,85 @@
+{
+  "id": null,
+  "title": "NestJS Application Metrics",
+  "tags": ["nestjs", "prometheus", "app"],
+  "timezone": "browser",
+  "schemaVersion": 27,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "CPU Usage (process_cpu_user_seconds_total)",
+      "targets": [
+        {
+          "expr": "rate(process_cpu_user_seconds_total[1m]) * 100",
+          "legendFormat": "CPU %",
+          "interval": ""
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 6}
+    },
+    {
+      "type": "graph",
+      "title": "Memory Usage (process_resident_memory_bytes)",
+      "targets": [
+        {
+          "expr": "process_resident_memory_bytes / 1024 / 1024",
+          "legendFormat": "Memory (MB)",
+          "interval": ""
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 6}
+    },
+    {
+      "type": "stat",
+      "title": "Uptime (process_start_time_seconds)",
+      "targets": [
+        {
+          "expr": "(time() - process_start_time_seconds) / 60",
+          "legendFormat": "Uptime (minutes)"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": {"x": 0, "y": 6, "w": 6, "h": 4}
+    },
+    {
+      "type": "graph",
+      "title": "HTTP Requests per Second (http_requests_total)",
+      "targets": [
+        {
+          "expr": "rate(http_requests_total[1m])",
+          "legendFormat": "{{method}} {{status}}"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": {"x": 6, "y": 6, "w": 18, "h": 6}
+    },
+    {
+      "type": "graph",
+      "title": "Event Loop Lag (nodejs_eventloop_lag_seconds)",
+      "targets": [
+        {
+          "expr": "nodejs_eventloop_lag_seconds",
+          "legendFormat": "Event Loop Lag"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": {"x": 0, "y": 12, "w": 12, "h": 6}
+    },
+    {
+      "type": "graph",
+      "title": "Heap Used (nodejs_heap_space_size_used_bytes)",
+      "targets": [
+        {
+          "expr": "sum(nodejs_heap_space_size_used_bytes) / 1024 / 1024",
+          "legendFormat": "Heap (MB)"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": {"x": 12, "y": 12, "w": 12, "h": 6}
+    }
+  ]
+}

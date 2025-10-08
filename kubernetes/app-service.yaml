@@ -1,3 +1,4 @@
+# Expose nestjs through nodeport
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,10 +6,10 @@ metadata:
   labels:
     app: nestjs-app
 spec:
-  type: NodePort
+  type: NodePort      #access from outside cluster
   selector:
-    app: nestjs-app
+    app: nestjs-app   # matches pod label
   ports:
-    - port: 3000
-      targetPort: 3000
-      nodePort: 30001
+    - port: 3000    #service port
+      targetPort: 3000  #pod port
+      nodePort: 30001   #port for external access
