@@ -1,5 +1,6 @@
 name: Docker pipeline (without kubernetes)
 
+
 on:
   push:
     branches: [ main ]
