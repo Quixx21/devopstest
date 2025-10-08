@@ -50,8 +50,10 @@ Pipeline: `.github/workflows/ci-cd.yml`
 
 Stages:
 1. **Build:** create Docker image from source  
-2. **Push:** publish image to Docker Hub  
-3. **Deploy:** rollout update to Kubernetes cluster  
+2. **Tests:** run default tests from origin dir
+3. **Push:** publish image to Docker Hub  
+4. **Scan:** Scan docker for vulnerabilities
+5. **Deploy:** rollout update to Kubernetes cluster  
 
 Required repository secrets:
 

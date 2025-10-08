@@ -47,7 +47,7 @@ jobs:
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.run_number }}
 
-      - name: Scan Docker image for vulnerabilities
+      - name: Scan Docker (security)
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_NAME }}:latest
