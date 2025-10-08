@@ -17,7 +17,7 @@ spec:
 
         prometheus.io/scrape: "true" #access for prometheus to get metrics
         prometheus.io/port: "3000"
-        prometheus.io/path: "/redis"
+        prometheus.io/path: "redis"
     spec:
       #no root
       securityContext:
