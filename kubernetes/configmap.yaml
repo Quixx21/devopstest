@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  labels:
+    app: devops-test
+data:
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"

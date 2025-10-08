@@ -1,0 +1,21 @@
+name: test k8s
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write kubeconfig
+        run: echo "${{ secrets.KUBE_CONFIG }}" > ${{ github.workspace }}/kubeconfig
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.30.0'
+
+      - name: Verify connection
+        run: |
+          export KUBECONFIG=${{ github.workspace }}/kubeconfig
+          kubectl get pods -A
