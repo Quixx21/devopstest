@@ -55,4 +55,3 @@ jobs:
           kubectl apply -f kubernetes/app-ingress.yaml
           kubectl rollout status deployment/nestjs-app -n $KUBE_NAMESPACE
         continue-on-error: true
-    
